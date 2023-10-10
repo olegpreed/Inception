@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "443:443"
+    restart: always
