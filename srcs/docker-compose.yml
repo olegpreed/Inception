@@ -5,10 +5,23 @@ services:
     container_name: nginx
     build: ./requirements/nginx
     volumes:
-      - wp:/var/www/wordpress
+      - wp:/var/www/html
     ports:
       - "443:443"
     restart: always
+    depends_on:
+      - wordpress
+    networks:
+      - network
+
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    volumes:
+      - wp:/var/www/html
+    restart: always
+    networks:
+      - network
 
 volumes:
   wp:
