@@ -12,7 +12,7 @@ services:
     depends_on:
       - wordpress
     networks:
-      - network
+      - docker_network
 
   wordpress:
     container_name: wordpress
@@ -21,7 +21,7 @@ services:
       - wp:/var/www/html
     restart: always
     networks:
-      - network
+      - docker-network
 
 volumes:
   wp:
@@ -31,3 +31,6 @@ volumes:
       type: none
       device: /home/${USER}/data/wordpress
       o: bind
+
+networks:
+  docker_network:
