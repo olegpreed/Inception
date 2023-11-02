@@ -1,24 +1,33 @@
-FROM alpine:3.18
+FROM debian:buster
 
-RUN apk update && \
-	apk add php8 php8-fpm php8-mysqli mariadb-client curl
+#Install necessary package from php
 
-# Copy www.conf (Listen to port 9000) to container
-COPY conf/www.conf /etc/php8/php-fpm.d/default.conf
+RUN apt-get update && apt-get -y install \
+wget \
+php \
+php-cgi \
+php-mysql \
+php-fpm \
+php-pdo \
+php-gd php-cli \
+php-mbstring \
+&& rm -rf /var/lib/apt/lists/*
 
-# # add downloads and extracts archive 
-# ADD https://wordpress.org/wordpress-6.3.2.tar.gz /var/www/
-# # RUN cd /var/www && tar -xzvf wordpress-6.3.2.tar.gz
-# RUN rm -f /var/www/wordpress-6.3.2.tar.gz
+#Copy the necessary tools to download wordpress
 
-# I need to install wp_cli command and put it in the right directory /usr/local/bin
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-# check to make sure that the file is working, using another command:
- && php wp-cli.phar --info \ 
-  && chmod +x wp-cli.phar \
-  && mv wp-cli.phar /usr/local/bin/wp
+COPY ./conf/www.conf /var/www/html/
 
-WORKDIR /var/www/wordpress
-COPY	/tools/start.sh /
-RUN		chmod 777 /start.sh
-CMD		/start.sh
+#Create the folder to enable php start
+
+RUN mkdir /run/php
+
+#Launch script
+
+COPY ./tools/create_wordpress.sh /usr/local/bin/
+ENTRYPOINT ["create_wordpress.sh"]
+
+WORKDIR /var/www/html/
+
+EXPOSE 9000
+
+CMD ["/usr/sbin/php-fpm7.3", "-F"]
