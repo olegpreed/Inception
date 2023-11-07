@@ -15,7 +15,7 @@ php-mbstring \
 
 #Copy the necessary tools to download wordpress
 
-COPY ./conf/www.conf /var/www/html/
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 #Create the folder to enable php start
 

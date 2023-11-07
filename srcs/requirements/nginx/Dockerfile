@@ -5,13 +5,7 @@ RUN apk update && apk --no-cache add nginx openssl
 
 # Generate a self-signed SSL certificate
 RUN mkdir -p /etc/nginx/ssl
-# req: This tells OpenSSL that a certificate signing request (CSR) is being created.
-# -x509: This option specifies that a self-signed certificate should be created.
-# -nodes: This option means "no des," indicating that the private key should not be encrypted with a passphrase. In production, you might want to add a passphrase for security.
-# -days 365: This specifies that the certificate will be valid for 365 days.
-# -newkey rsa:4096: This generates a new RSA private key with a length of 4096 bits.
-# -keyout /etc/ssl/private/nginx.key: This specifies the path and filename where the private key will be saved.
-# -out /etc/ssl/certs/nginx.crt: This specifies the path and filename where the self-signed certificate will be saved.
+
 RUN openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -days 365 -subj "/CN=localhost"
 
 # Copy your Nginx configuration file with TLSv1.3 settings

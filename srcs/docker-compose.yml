@@ -5,7 +5,7 @@ services:
     container_name: nginx
     build: ./requirements/nginx
     volumes:
-      - wp:/var/www/html
+      - wp:/var/www/html/
     ports:
       - "443:443"
     restart: always
@@ -18,10 +18,12 @@ services:
     container_name: wordpress
     build: ./requirements/wordpress
     volumes:
-      - wp:/var/www/html
+      - wp:/var/www/html/
     restart: always
     networks:
       - docker_network
+    ports:
+      - 9000
 
 volumes:
   wp:
