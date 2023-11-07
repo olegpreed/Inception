@@ -21,15 +21,15 @@ services:
       - wp:/var/www/html
     restart: always
     networks:
-      - docker-network
+      - docker_network
 
 volumes:
   wp:
     driver: local
     driver_opts:
-    # maybe type none is default ,can be ommited
+    # maybe type none is default, can be ommited
       type: none
-      device: /home/${USER}/data/wordpress
+      device: /home/preed/data/wordpress
       o: bind
 
 networks:

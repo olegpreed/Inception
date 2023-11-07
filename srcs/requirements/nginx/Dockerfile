@@ -20,8 +20,6 @@ COPY ./conf/nginx.conf /etc/nginx/http.d/
 # Create a directory to store your application files inside the container
 WORKDIR /usr/share/nginx/html
 
-COPY ./src/* ./
-
 # Start Nginx in the foreground
 # Containers are designed to run a single main process. 
 # When this main process exits, the container is considered finished, and it stops. 
