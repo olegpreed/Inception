@@ -6,13 +6,13 @@ services:
     build: ./requirements/nginx
     volumes:
       - wp:/var/www/html/
-    ports:
-      - "443:443"
     restart: always
     depends_on:
       - wordpress
     networks:
       - docker_network
+    ports:
+      - "443:443"
 
   wordpress:
     container_name: wordpress
@@ -20,10 +20,29 @@ services:
     volumes:
       - wp:/var/www/html/
     restart: always
+    depends_on:
+      - mariadb
     networks:
       - docker_network
     ports:
       - 9000
+
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    restart: always
+    networks:
+      - docker_network
+    ports:
+      - 3306
 
 volumes:
   wp:
@@ -32,6 +51,12 @@ volumes:
     # maybe type none is default, can be ommited
       type: none
       device: /home/preed/data/wordpress
+      o: bind
+  db:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/preed/data/mysql
       o: bind
 
 networks:
