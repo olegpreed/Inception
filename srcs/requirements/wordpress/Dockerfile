@@ -27,10 +27,14 @@ COPY ./tools/create_wordpress.sh /usr/local/bin/
 
 RUN chmod a+x /usr/local/bin/create_wordpress.sh
 
-ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
+EXPOSE 9000
 
 WORKDIR /var/www/html/
 
-EXPOSE 9000
+ENTRYPOINT sh /usr/local/bin/create_wordpress.sh ; /usr/sbin/php-fpm7.3 -F
 
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
+# ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
+
+# WORKDIR /var/www/html/
+
+# CMD ["/usr/sbin/php-fpm7.3", "-F"]

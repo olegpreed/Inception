@@ -1,10 +1,10 @@
 FROM debian:buster
 
-# Set environment variables for MariaDB root user
-ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-ENV MYSQL_DATABASE=${MYSQL_DATABASE}
-ENV MYSQL_USER=${MYSQL_USER}
-ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+# # Set environment variables for MariaDB root user
+# ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+# ENV MYSQL_DATABASE=${MYSQL_DATABASE}
+# ENV MYSQL_USER=${MYSQL_USER}
+# ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
 
 # Install MariaDB server
 RUN apt-get update && apt-get install -y mariadb-server mariadb-client \
@@ -19,7 +19,9 @@ RUN apt-get update && apt-get install -y mariadb-server mariadb-client \
 EXPOSE 3306
 
 COPY ./tools/create_db.sh /usr/local/bin/
-# COPY ./conf/wordpress.sql /usr/local/bin/
+COPY ./conf/wordpress.sql /usr/local/bin/
+
+COPY /conf/my.cnf /etc/mysql
 
 RUN chmod a+x /usr/local/bin/create_db.sh
 
