@@ -51,18 +51,7 @@ services:
 
 volumes:
   wp:
-    driver: local
-    driver_opts:
-    # maybe type none is default, can be ommited
-      type: none
-      device: ~/data/wordpress
-      o: bind
   db:
-    driver: local
-    driver_opts:
-      type: none
-      device: ~/data/mysql
-      o: bind
 
 networks:
   docker_network:

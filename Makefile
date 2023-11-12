@@ -10,8 +10,10 @@ start:
 stop:
 	docker-compose -f srcs/docker-compose.yml stop
 
-clean: down
-	sudo rm -rf ~/data/wordpress/*
-	sudo rm -rf ~/data/mysql/*
+clean:
+	docker-compose -f srcs/docker-compose.yml down -v
+
+fclean:
+	docker-compose -f srcs/docker-compose.yml down --rmi all
 
 re: clean all

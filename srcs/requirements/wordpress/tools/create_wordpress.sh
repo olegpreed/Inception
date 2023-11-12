@@ -11,10 +11,6 @@ else
 	rm -rf latest.tar.gz
 	rm -rf wordpress
 
-	# #Update configuration file
-	# rm -rf /etc/php/7.3/fpm/pool.d/www.conf
-	# mv ./www.conf /etc/php/7.3/fpm/pool.d/
-
 	#Inport env variables in the config file
 	# echo "Hello, world!" >> wp-config.php
 	sed -i "s/username_here/$MYSQL_USER/g" wp-config-sample.php
